@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/fifteen"
+    android:paddingLeft="@dimen/ten"
+    android:paddingRight="@dimen/ten"
+    android:paddingTop="@dimen/fifteen"
+    tools:context="youtubeapidemo.examples.com.bakingapp.IngredientActivity">
+
+    <TextView
+        android:id="@+id/ingredient_head"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/ingredient_head"
+        android:visibility="invisible"
+        tools:visibility="visible"
+        android:gravity="center"
+        android:text="@string/ingredients_head"
+        android:textSize="@dimen/ingredient_item_size" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/recycler_view_padding" />
+
+</LinearLayout>

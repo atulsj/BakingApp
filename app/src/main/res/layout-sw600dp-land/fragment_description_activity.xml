@@ -1,0 +1,110 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    android:orientation="vertical"
+    tools:context="youtubeapidemo.examples.com.bakingapp.DescriptionActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="@integer/two"
+        android:background="@color/background_back">
+
+
+        <com.google.android.exoplayer2.ui.SimpleExoPlayerView
+            android:id="@+id/playerView"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="@bool/yes"
+            tools:layout_width="match_parent" />
+
+        <TextView
+            android:id="@+id/no_video_text"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="@string/no_video_available"
+            android:textColor="@color/background_white"
+            android:textSize="@dimen/no_video_text_size"
+            android:visibility="invisible"
+            tools:textColor="@color/background_back"
+            tools:visibility="visible" />
+
+        <ImageView
+            android:id="@+id/no_video_image"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:contentDescription="@string/no_video_image"
+            android:scaleType="fitCenter"
+            android:text="@string/no_video_available"
+            android:textSize="@dimen/text_large"
+            android:visibility="invisible"
+            tools:visibility="visible" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="@integer/one">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/linearLayout"
+            android:layout_alignParentTop="@bool/yes"
+            android:layout_marginBottom="@dimen/ten">
+
+            <TextView
+                android:id="@+id/step_description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/ingredient_padding"
+                android:textSize="@dimen/description_text"
+                tools:text="Here is the description" />
+        </ScrollView>
+
+        <LinearLayout
+            android:id="@+id/linearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="@bool/yes"
+            android:layout_marginBottom="@dimen/ten"
+            android:layout_marginLeft="@dimen/ten"
+            android:layout_marginRight="@dimen/ten"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/previous_button"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="@integer/one"
+                android:background="@drawable/custom_button_selector"
+                android:text="@string/previous"
+                android:textColor="@color/background_white"
+                android:textSize="@dimen/button_text"
+                android:visibility="invisible" />
+
+            <TextView
+                android:id="@+id/description_position"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="@integer/two"
+                android:gravity="center_horizontal|bottom"
+                android:textSize="@dimen/page_index_text_size"
+                tools:text="5/9" />
+
+            <Button
+                android:id="@+id/next_button"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="@integer/one"
+                android:background="@drawable/custom_button_selector"
+                android:text="@string/next"
+                android:textColor="@color/background_white"
+                android:textSize="@dimen/button_text" />
+        </LinearLayout>
+    </RelativeLayout>
+</LinearLayout>

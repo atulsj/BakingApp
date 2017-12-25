@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    android:paddingBottom="@dimen/fifteen"
+    android:paddingLeft="@dimen/ten"
+    android:paddingRight="@dimen/ten"
+    android:paddingTop="@dimen/fifteen"
+    tools:context="youtubeapidemo.examples.com.bakingapp.IngredientActivity">
+
+    <TextView
+        android:id="@+id/ingredient_head"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:padding="@dimen/ingredient_head_padding"
+        android:text="@string/ingredients_head"
+        android:textSize="@dimen/text_large"
+        android:visibility="invisible"
+        tools:visibility="visible" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/ingredient_head"
+        android:padding="@dimen/recycler_view_padding" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/cook_custom_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/recycler_view"
+        android:layout_alignParentBottom="@bool/yes"
+        android:layout_alignParentRight="@bool/yes"
+        android:layout_margin="@dimen/fab_margin"
+        android:src="@drawable/cook_steps"
+        android:visibility="invisible"
+        tools:visibility="visible"
+        app:fabSize="auto"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
+
+</RelativeLayout>

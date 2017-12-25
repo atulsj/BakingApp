@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background">
+    <TextView
+        android:id="@+id/text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="@bool/yes"
+        android:paddingTop="@dimen/list_padding_top"
+        android:text="@string/head"
+        android:textSize="@dimen/head_main_activity" />
+
+
+
+    <fragment
+        android:id="@+id/master_list_fragment"
+        android:name="youtubeapidemo.examples.com.bakingapp.MainActivityFragment"
+        android:layout_width="@dimen/recipe_name_fragment_container"
+        android:layout_height="match_parent"
+        android:layout_below="@id/text"
+        tools:layout="@layout/fragment_main_activity"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
+
+</RelativeLayout>

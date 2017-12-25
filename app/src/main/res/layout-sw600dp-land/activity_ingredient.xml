@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:baselineAligned="@bool/no"
+    android:orientation="horizontal">
+
+
+    <fragment
+        android:id="@+id/detail_ingredient_fragment"
+        android:name="youtubeapidemo.examples.com.bakingapp.IngredientActivityFragment"
+        android:layout_width="@dimen/ingredient_list_width"
+        android:layout_height="match_parent"
+        tools:layout="@layout/fragment_ingredient_activity" />
+
+
+    <View
+        android:layout_width="@dimen/view_separator"
+        android:layout_height="match_parent"
+        android:background="@android:color/darker_gray" />
+
+
+    <FrameLayout
+        android:id="@+id/description_frame_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerInside" />
+
+
+</LinearLayout>
