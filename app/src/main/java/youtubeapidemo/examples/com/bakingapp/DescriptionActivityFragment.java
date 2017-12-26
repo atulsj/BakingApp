@@ -11,34 +11,43 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
+
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.google.android.exoplayer2.ui.SimpleExoPlayerView;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.util.ArrayList;
+
 import static android.content.ContentValues.TAG;
 import static youtubeapidemo.examples.com.bakingapp.R.id.playerView;
 
 public class DescriptionActivityFragment extends Fragment {
     public static final String VIDEO_URL = "video_url";
-    private static final String STEP_NO = "step_no";
+    public static final String STEP_NO = "step_no";
+
     private SimpleExoPlayerView mPlayerView;
     private Button mPreviousButton, mNextButton;
     private ArrayList<Description> mDescription;
-    private int mCurrentPosition = 0;
+    public static int mCurrentPosition = 0;
     private TextView mStep, mDescriptionPosition;
     private int pos = 0;
     private View rootView;
     private TextView mNoVideoText;
 
+    private ImageView mImageView;
+
     public DescriptionActivityFragment() {
         // Required empty public constructor
     }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -50,62 +59,53 @@ public class DescriptionActivityFragment extends Fragment {
         mStep = (TextView) rootView.findViewById(R.id.step_description);
         mDescriptionPosition = (TextView) rootView.findViewById(R.id.description_position);
         mPlayerView = (SimpleExoPlayerView) rootView.findViewById(playerView);
-
+        mImageView = (ImageView) rootView.findViewById(R.id.no_video_image);
+        mDescription = new ArrayList<>();
         Configuration configuration = getActivity().getResources().getConfiguration();
 
-        if(savedInstanceState!=null){
-            mCurrentPosition=savedInstanceState.getInt(STEP_NO);
-        }
-        Intent intent = getActivity().getIntent();
-        if (intent != null && intent.hasExtra(IngredientActivityFragment.DESCRIPTION_ARRAY_LIST)) {
-            mDescription = intent.getParcelableArrayListExtra(IngredientActivityFragment
-                    .DESCRIPTION_ARRAY_LIST);
+        mPreviousButton.setVisibility(View.INVISIBLE);
+        mNextButton.setVisibility(View.INVISIBLE);
 
-            mNoVideoText= (TextView) rootView.findViewById(R.id.no_video_text);
-            display();
-            initializePlayer();
-        } else if (configuration.orientation ==
-                Configuration.ORIENTATION_LANDSCAPE) {
-            mNextButton.setVisibility(View.INVISIBLE);
-            mPlayerView.setVisibility(View.INVISIBLE);
-            Bundle bundle = getArguments();
-            pos = bundle.getInt(IngredientActivity.ARG);
-            mDescription = new ArrayList<>();
-            makeJsonArrayRequest();
+        Bundle args = getArguments();
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
 
+            if (args != null) {
+                pos = args.getInt(DescriptionActivity.ARG_DES, 0);
+            }
+        } else {
+            if (args != null) {
+                pos = args.getInt(IngredientActivity.ARG, 0);
+            }
         }
-        if ((configuration.orientation ==
-                Configuration.ORIENTATION_PORTRAIT || configuration.orientation==
-                Configuration.ORIENTATION_LANDSCAPE )&& getResources().getBoolean(R.bool.is_mobile)) {
-            display();
-            initializePlayer();
-        }
-        if(configuration.orientation==Configuration.ORIENTATION_LANDSCAPE ){
-            mNoVideoText= (TextView) rootView.findViewById(R.id.no_video_text);
+        if (savedInstanceState == null) {
+            if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT)
+                mCurrentPosition = 0;
 
+        } else if (savedInstanceState.containsKey(STEP_NO)) {
+            mCurrentPosition = savedInstanceState.getInt(STEP_NO);
         }
+        makeJsonArrayRequest();
 
+        mNoVideoText = (TextView) rootView.findViewById(R.id.no_video_text);
         return rootView;
     }
 
 
     private void display() {
-        mStep.setText(mDescription.get(mCurrentPosition).getDescription());
+
         SetUpPreviousButton();
         SetUpNextButton();
-
     }
 
-    private void SetUpPreviousButton(){
+    private void SetUpPreviousButton() {
         mPreviousButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 mCurrentPosition--;
                 if (mCurrentPosition == 0) {
                     mPreviousButton.setVisibility(View.INVISIBLE);
-                    mDescriptionPosition.setVisibility(View.INVISIBLE);
                 }
-                if(mNoVideoText!=null)
+                if (mNoVideoText != null)
                     mNoVideoText.setVisibility(View.INVISIBLE);
                 mStep.setText(mDescription.get(mCurrentPosition).getDescription());
                 mNextButton.setVisibility(View.VISIBLE);
@@ -119,7 +119,7 @@ public class DescriptionActivityFragment extends Fragment {
     }
 
 
-    private void SetUpNextButton(){
+    private void SetUpNextButton() {
         mNextButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -127,18 +127,19 @@ public class DescriptionActivityFragment extends Fragment {
                 if (mCurrentPosition == mDescription.size() - 1) {
                     mNextButton.setVisibility(View.INVISIBLE);
                 }
-                if(mNoVideoText!=null)
+                if (mNoVideoText != null)
                     mNoVideoText.setVisibility(View.INVISIBLE);
                 mStep.setText(mDescription.get(mCurrentPosition).getDescription());
                 mPreviousButton.setVisibility(View.VISIBLE);
                 mDescriptionPosition.setText("" + (mCurrentPosition) + "/" + (mDescription.size() - 1));
-                mDescriptionPosition.setVisibility(View.VISIBLE);
+
                 ExoPlayerHandler.getInstance().goToBackground();
                 ExoPlayerHandler.getInstance().releaseVideoPlayer();
                 initializePlayer();
             }
         });
     }
+
     private void makeJsonArrayRequest() {
         String mUrlBaking = BakingUtility.BAKING_URL;
         JsonArrayRequest req = new JsonArrayRequest(mUrlBaking,
@@ -154,13 +155,25 @@ public class DescriptionActivityFragment extends Fragment {
                                 String shortDescription = step.getString(BakingUtility.SHORT_DESCRIPTION);
                                 String describe = step.getString(BakingUtility.DESCRIPTION);
                                 String videoURL = step.getString(BakingUtility.VIDEO_URL);
+                                String thumbnailURL = step.getString(BakingUtility.THUMBNAIL_URL);
                                 mDescription.add(new Description(id, shortDescription,
-                                        describe, videoURL));
+                                        describe, videoURL, thumbnailURL));
                             }
-                            mNextButton.setVisibility(View.VISIBLE);
-                            mPlayerView.setVisibility(View.VISIBLE);
+
                             display();
                             initializePlayer();
+                            mStep.setText(mDescription.get(mCurrentPosition).getDescription());
+                            mDescriptionPosition.setVisibility(View.VISIBLE);
+                            mDescriptionPosition.setText("" + (mCurrentPosition) + "/" + (mDescription.size() - 1));
+                            mNextButton.setVisibility(View.VISIBLE);
+                            mPreviousButton.setVisibility(View.VISIBLE);
+                            if (mCurrentPosition == mDescription.size()-1)
+                                mNextButton.setVisibility(View.INVISIBLE);
+                            else
+                            if (mCurrentPosition == 0)
+                                mPreviousButton.setVisibility(View.INVISIBLE);
+
+
                         } catch (JSONException e) {
                             e.printStackTrace();
                             Log.i(TAG, "Error: " + e.getMessage());
@@ -176,15 +189,14 @@ public class DescriptionActivityFragment extends Fragment {
     }
 
     private void initializePlayer() {
-        if(mPlayerView!=null)
-        mPlayerView.setVisibility(View.VISIBLE);
+        if (mPlayerView != null)
+            mPlayerView.setVisibility(View.VISIBLE);
         final String url = mDescription.get(mCurrentPosition).getVideoURL();
-
         if (url == null || url.isEmpty()) {
-            if(mPlayerView!=null)
-            mPlayerView.setVisibility(View.GONE);
-            if(mNoVideoText!=null)
-            mNoVideoText.setVisibility(View.VISIBLE);
+            if (mPlayerView != null)
+                mPlayerView.setVisibility(View.GONE);
+            if (mNoVideoText != null)
+                mNoVideoText.setVisibility(View.VISIBLE);
             return;
         }
 
@@ -228,7 +240,8 @@ public class DescriptionActivityFragment extends Fragment {
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putInt(STEP_NO,mCurrentPosition);
-      //  outState.putLong(SEEK_POSITION,ExoPlayerHandler.mSimpleExoPlayer.getCurrentPosition());
+        outState.putInt(STEP_NO, mCurrentPosition);
+        //  outState.putLong(SEEK_POSITION,ExoPlayerHandler.mSimpleExoPlayer.getCurrentPosition());
     }
+
 }

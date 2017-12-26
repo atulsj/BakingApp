@@ -37,9 +37,9 @@
             android:label="Baking..."
             android:parentActivityName=".IngredientActivity"
             tools:targetApi="jelly_bean">
-        <meta-data
-            android:name="android.support.PARENT_ACTIVITY"
-            android:value=".IngredientActivity" />
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".IngredientActivity" />
         </activity>
 
         <provider

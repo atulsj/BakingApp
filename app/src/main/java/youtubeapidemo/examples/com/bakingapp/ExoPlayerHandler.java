@@ -16,9 +16,9 @@ import com.google.android.exoplayer2.ui.SimpleExoPlayerView;
 import com.google.android.exoplayer2.upstream.DefaultHttpDataSourceFactory;
 
 
-public class ExoPlayerHandler {
+class ExoPlayerHandler {
     private static ExoPlayerHandler instance;
-    public  SimpleExoPlayer mSimpleExoPlayer;
+    private SimpleExoPlayer mSimpleExoPlayer;
     private Uri playerUri;
     private boolean isPlayerPlaying=true;
 
@@ -74,12 +74,13 @@ public class ExoPlayerHandler {
     void goToBackground() {
         if (mSimpleExoPlayer != null) {
             isPlayerPlaying = mSimpleExoPlayer.getPlayWhenReady();
-            mSimpleExoPlayer.setPlayWhenReady(false);
+            mSimpleExoPlayer.setPlayWhenReady(isPlayerPlaying);
         }
     }
 
     void goToForeground() {
         if (mSimpleExoPlayer != null) {
+            isPlayerPlaying = mSimpleExoPlayer.getPlayWhenReady();
             mSimpleExoPlayer.setPlayWhenReady(isPlayerPlaying);
         }
     }

@@ -4,5 +4,5 @@
     <dimen name="card_margin_left">10dp</dimen>
     <dimen name="recipe_name_fragment_container">600dp</dimen>
     <dimen name="start_cook_buton_size">20sp</dimen>
-    <dimen name="description_text">30dp</dimen>
+    <dimen name="description_text">30sp</dimen>
 </resources>

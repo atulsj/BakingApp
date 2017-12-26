@@ -8,10 +8,12 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
-public class IngredientActivity extends AppCompatActivity {
+public class IngredientActivity extends AppCompatActivity implements IngredientActivityFragment.OnIngredientClickListener{
 
     public static final String ARG ="Set Arguments" ;
-
+    public static final String POSITION ="position" ;
+    // public static ProgressBar mProgressBar;
+int pos;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -19,7 +21,8 @@ public class IngredientActivity extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         Intent intent = getIntent();
         String activityName = "Baking Activity";
-        int pos=0;
+
+
 
         if (intent != null) {
             if (intent.hasExtra(MainActivity.BUNDLE)) {
@@ -33,7 +36,8 @@ public class IngredientActivity extends AppCompatActivity {
             actionBar.setTitle(activityName);
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
-
+      /*  Configuration configuration = getResources().getConfiguration();
+        int smallestScreenWidthDp = configuration.smallestScreenWidthDp;*/
         if(getResources().getConfiguration().orientation== Configuration.ORIENTATION_LANDSCAPE &&
                 getResources().getBoolean(R.bool.is_tablet)) {
             DescriptionActivityFragment descriptionActivityFragment = new DescriptionActivityFragment();
@@ -55,4 +59,10 @@ public class IngredientActivity extends AppCompatActivity {
     }
 
 
+    @Override
+    public void onIngredientSelected() {
+        Intent intent = new Intent(this, DescriptionActivity.class);
+        intent.putExtra(POSITION,pos);
+        startActivity(intent);
+    }
 }

@@ -3,19 +3,18 @@ package youtubeapidemo.examples.com.bakingapp;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-/**
- * Created by 1515012 on 11-07-2017.
- */
 
-public class Description implements Parcelable {
+
+class Description implements Parcelable {
     private int mId;
-    private String mShortDescription, mDescription, mVideoURL;
+    private String mShortDescription, mDescription, mVideoURL,mThumbnailURL;
 
-    public Description(int id, String shortDescription, String description, String videoURL) {
+    Description(int id, String shortDescription, String description, String videoURL, String thumbnailURL) {
         mId = id;
         mShortDescription = shortDescription;
         mDescription = description;
         mVideoURL = videoURL;
+        mThumbnailURL=thumbnailURL;
     }
 
     public int getId() {
@@ -30,7 +29,7 @@ public class Description implements Parcelable {
         return mShortDescription;
     }
 
-    public String getVideoURL() {
+    String getVideoURL() {
         return mVideoURL;
     }
 
@@ -39,12 +38,17 @@ public class Description implements Parcelable {
         return 0;
     }
 
+    public String getThumbnailURL() {
+        return mThumbnailURL;
+    }
+
     @Override
     public void writeToParcel(Parcel parcel, int i) {
         parcel.writeString(mDescription);
         parcel.writeString(mShortDescription);
         parcel.writeString(mVideoURL);
         parcel.writeInt(mId);
+        parcel.writeString(mThumbnailURL);
     }
 
     protected Description(Parcel in) {
@@ -52,6 +56,7 @@ public class Description implements Parcelable {
         mShortDescription=in.readString();
         mVideoURL=in.readString();
         mId=in.readInt();
+        mThumbnailURL=in.readString();
     }
 
     public static final Creator<Description> CREATOR = new Creator<Description>() {

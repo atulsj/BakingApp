@@ -1,5 +1,6 @@
 package youtubeapidemo.examples.com.bakingapp;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -33,29 +34,52 @@ public class IngredientActivityFragment extends Fragment {
     public static final String WIDGIT_POSITION = "WIDGIT POSITION";
     public static final String TAG = IngredientActivityFragment.class.getSimpleName();
     public static final String DESCRIPTION_ARRAY_LIST = "list";
+    public static final String POSITION ="position" ;
     private TextView ingredientHead;
     private View cookingButton;
     private CardView cardViewIngredients;
     private IngredientAdapter ingredientAdapter;
     private ArrayList<String> ingredientArrayList;
-    public static int pos;
+    public static int pos=0;
     public static ArrayList<Description> descriptionArrayList;
+    private OnIngredientClickListener mCallback;
+
+
+    interface OnIngredientClickListener {
+        void onIngredientSelected();
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+
+        try {
+            mCallback = (OnIngredientClickListener) context;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(context.toString()
+                    + " must implement OnImageClickListener");
+        }
+    }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_ingredient_activity, container, false);
+
         RecyclerView recyclerView = (RecyclerView) root.findViewById(R.id.recycler_view);
         ingredientHead = (TextView) root.findViewById(R.id.ingredient_head);
+
         Configuration configuration = getActivity().getResources().getConfiguration();
+        int smallestScreenWidthDp = configuration.smallestScreenWidthDp;
         boolean orient=configuration.orientation ==
                 Configuration.ORIENTATION_PORTRAIT;
         if ( orient || getResources().getBoolean(R.bool.is_mobile)) {
             cookingButton = root.findViewById(R.id.cook_custom_button);
             if(orient)
-            cardViewIngredients = (CardView) root.findViewById(R.id.card_view_ingredients);
+                cardViewIngredients = (CardView) root.findViewById(R.id.card_view_ingredients);
         }
+
         ingredientArrayList=new ArrayList<>();
         descriptionArrayList = new ArrayList<>();
         Intent intent = getActivity().getIntent();
@@ -71,6 +95,7 @@ public class IngredientActivityFragment extends Fragment {
             pos=savedInstanceState.getInt(ITEM_POSITION);
         }
         makeJsonArrayRequest();
+
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         ingredientAdapter = new IngredientAdapter(getActivity(), ingredientArrayList);
@@ -95,17 +120,7 @@ public class IngredientActivityFragment extends Fragment {
                                         ingr.getDouble(BakingUtility.QUALITY) + " " + ingr.getString(BakingUtility.MEASURE);
                                 ingredientArrayList.add(ingredientsRequirent);
                             }
-                            /*Cooking button,card View  is not available in Landscape layout*/
-                            JSONArray steps = recipe.getJSONArray(BakingUtility.STEPS);
-                            for (int i = 0; i < steps.length(); i++) {
-                                JSONObject step = (JSONObject) steps.get(i);
-                                int id = step.getInt(BakingUtility.ID);
-                                String shortDescription = step.getString(BakingUtility.SHORT_DESCRIPTION);
-                                String describe = step.getString(BakingUtility.DESCRIPTION);
-                                String videoURL = step.getString(BakingUtility.VIDEO_URL);
-                                descriptionArrayList.add(new Description(id, shortDescription,
-                                        describe, videoURL));
-                            }
+
                             if (cookingButton != null ) {
                                 cookingButton.setVisibility(View.VISIBLE);
                             }
@@ -116,15 +131,18 @@ public class IngredientActivityFragment extends Fragment {
                                 cookingButton.setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View view) {
-                                        Intent intent = new Intent(getActivity(), DescriptionActivity.class);
+                                  /*      Intent intent = new Intent(getActivity(), DescriptionActivity.class);
                                         Bundle bundle = new Bundle();
                                         bundle.putParcelableArrayList(DESCRIPTION_ARRAY_LIST,
                                                 descriptionArrayList);
                                         intent.putExtras(bundle);
-                                        startActivity(intent);
+                                        startActivity(intent);*/
+
+                                  mCallback.onIngredientSelected();
                                     }
                                 });
                             }
+
                             ingredientHead.setVisibility(View.VISIBLE);
                             ingredientAdapter.changeData(ingredientArrayList);
                         } catch (JSONException e) {
@@ -148,4 +166,5 @@ public class IngredientActivityFragment extends Fragment {
         outState.putStringArrayList(RESTORE_INGREDIENT_LIST, ingredientArrayList);
         outState.putInt(ITEM_POSITION,pos);
     }
+
 }
