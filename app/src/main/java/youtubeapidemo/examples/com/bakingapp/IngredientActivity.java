@@ -38,15 +38,17 @@ int pos;
         }
       /*  Configuration configuration = getResources().getConfiguration();
         int smallestScreenWidthDp = configuration.smallestScreenWidthDp;*/
-        if(getResources().getConfiguration().orientation== Configuration.ORIENTATION_LANDSCAPE &&
-                getResources().getBoolean(R.bool.is_tablet)) {
-            DescriptionActivityFragment descriptionActivityFragment = new DescriptionActivityFragment();
-            Bundle args = new Bundle();
-            args.putInt(ARG,pos);
-            descriptionActivityFragment.setArguments(args);
-            getSupportFragmentManager().beginTransaction().replace(R.id.description_frame_container,
-                    descriptionActivityFragment).commit();
-        }
+
+          if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE &&
+                  getResources().getBoolean(R.bool.is_tablet)) {
+              DescriptionActivityFragment descriptionActivityFragment = new DescriptionActivityFragment();
+              Bundle args = new Bundle();
+              args.putInt(ARG, pos);
+              descriptionActivityFragment.setArguments(args);
+              getSupportFragmentManager().beginTransaction().replace(R.id.description_frame_container,
+                      descriptionActivityFragment).commit();
+          }
+
     }
 
     @Override

@@ -71,10 +71,6 @@
             </intent-filter>
         </service>
 
-        <activity
-            android:name=".FullScreenVideoActivity"
-            android:screenOrientation="landscape"
-            android:theme="@style/FullScreenTheme"/>
     </application>
 
 </manifest>

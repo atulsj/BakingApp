@@ -34,13 +34,16 @@ public class DescriptionActivity extends AppCompatActivity {
 
         if (intent != null && intent.hasExtra(IngredientActivity.POSITION))
             pos = intent.getIntExtra(IngredientActivity.POSITION, 0);
-        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
-            DescriptionActivityFragment descriptionActivityFragment = new DescriptionActivityFragment();
-            Bundle args = new Bundle();
-            args.putInt(ARG_DES, pos);
-            descriptionActivityFragment.setArguments(args);
-            getSupportFragmentManager().beginTransaction().add(R.id.description_frame_container,
-                    descriptionActivityFragment).commit();
+        if(savedInstanceState==null) {
+            if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT ||
+                    getResources().getBoolean(R.bool.is_mobile)) {
+                DescriptionActivityFragment descriptionActivityFragment = new DescriptionActivityFragment();
+                Bundle args = new Bundle();
+                args.putInt(ARG_DES, pos);
+                descriptionActivityFragment.setArguments(args);
+                getSupportFragmentManager().beginTransaction().add(R.id.description_frame_container,
+                        descriptionActivityFragment).commit();
+            }
         }
     }
 

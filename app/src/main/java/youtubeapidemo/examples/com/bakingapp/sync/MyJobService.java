@@ -14,7 +14,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import youtubeapidemo.examples.com.bakingapp.MySingleton;
-import youtubeapidemo.examples.com.bakingapp.provider.BakeContact.BakeEntry;
+import youtubeapidemo.examples.com.bakingapp.provider.BakeContract.BakeEntry;
 
 /**
  *  MyJobService onStartJob() is SettingUp the DataBase Table in background thread to be used in creating App widget.

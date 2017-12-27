@@ -11,7 +11,7 @@ import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 
-import youtubeapidemo.examples.com.bakingapp.provider.BakeContact.BakeEntry;
+import youtubeapidemo.examples.com.bakingapp.provider.BakeContract.BakeEntry;
 
 /**
  * Class to be Used for inserting ,querying and deleting database content.
@@ -25,7 +25,7 @@ public class BakeListContentProvider extends ContentProvider {
 
     public static UriMatcher buildUriMatcher() {
         UriMatcher uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
-        uriMatcher.addURI(BakeContact.AUTHORITY, BakeContact.PATH_RECIPES, RECIPES);
+        uriMatcher.addURI(BakeContract.AUTHORITY, BakeContract.PATH_RECIPES, RECIPES);
         return uriMatcher;
     }
 
@@ -62,7 +62,7 @@ public class BakeListContentProvider extends ContentProvider {
     }
 
     @Override
-    public int delete(Uri uri, String selection, String[] selectionArgs) {
+    public int delete(@NonNull Uri uri, String selection, String[] selectionArgs) {
         SQLiteDatabase database = mBakeDbHelper.getWritableDatabase();
         int rowsDeleted;
         final int match = sUriMatcher.match(uri);

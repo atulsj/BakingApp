@@ -131,24 +131,24 @@ public class IngredientActivityFragment extends Fragment {
                                 cookingButton.setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View view) {
-                                  /*      Intent intent = new Intent(getActivity(), DescriptionActivity.class);
-                                        Bundle bundle = new Bundle();
-                                        bundle.putParcelableArrayList(DESCRIPTION_ARRAY_LIST,
-                                                descriptionArrayList);
-                                        intent.putExtras(bundle);
-                                        startActivity(intent);*/
-
                                   mCallback.onIngredientSelected();
                                     }
                                 });
                             }
-
                             ingredientHead.setVisibility(View.VISIBLE);
                             ingredientAdapter.changeData(ingredientArrayList);
+
+                            //TODO: uncomment the below comment for testing please
+                            /* SimpleIdlingResource simpleIdlingResource =
+                                    ((MainActivity) getActivity()).getIdlingResource();
+                            if (simpleIdlingResource != null) {
+                                simpleIdlingResource.setIdleState(true);
+                            }*/
                         } catch (JSONException e) {
                             e.printStackTrace();
                             Log.i(TAG, "Error: " + e.getMessage());
                         }
+
                     }
                 }, new Response.ErrorListener() {
             @Override

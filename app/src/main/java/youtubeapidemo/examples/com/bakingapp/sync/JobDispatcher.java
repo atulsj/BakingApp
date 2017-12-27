@@ -37,12 +37,12 @@ public class JobDispatcher {
                 .setTag(REMINDER_JOB_TAG)
                 .setConstraints(Constraint.ON_ANY_NETWORK)
                 .setTrigger(Trigger.executionWindow(REFRESH_INTERVAL_SECONDS,SYNC_FLEXTIME_SECONDS))
-                .setReplaceCurrent(true)
+                .setReplaceCurrent(false)
                 .setRetryStrategy(RetryStrategy.DEFAULT_EXPONENTIAL)
                 .setLifetime(Lifetime.FOREVER)
                 .setRecurring(true)
                 .build();
-        dispatcher.schedule(constraintReminderJob);
+        dispatcher.mustSchedule(constraintReminderJob);
         sInitialized = true;
     }
 

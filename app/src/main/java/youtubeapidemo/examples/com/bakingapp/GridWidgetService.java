@@ -8,9 +8,9 @@ import android.os.Bundle;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
 
-import static youtubeapidemo.examples.com.bakingapp.provider.BakeContact.BASE_CONTENT_URI;
-import static youtubeapidemo.examples.com.bakingapp.provider.BakeContact.BakeEntry;
-import static youtubeapidemo.examples.com.bakingapp.provider.BakeContact.PATH_RECIPES;
+import static youtubeapidemo.examples.com.bakingapp.provider.BakeContract.BASE_CONTENT_URI;
+import static youtubeapidemo.examples.com.bakingapp.provider.BakeContract.BakeEntry;
+import static youtubeapidemo.examples.com.bakingapp.provider.BakeContract.PATH_RECIPES;
 
 
 public class GridWidgetService extends RemoteViewsService {

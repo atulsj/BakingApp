@@ -17,7 +17,6 @@ public class BakingWidgetProvider extends AppWidgetProvider {
     @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     static void updateAppWidget(Context context, AppWidgetManager appWidgetManager,
                                 int appWidgetId) {
-
         RemoteViews views = getRecipeGridRemoteView(context);
         appWidgetManager.updateAppWidget(appWidgetId, views);
     }
@@ -29,7 +28,9 @@ public class BakingWidgetProvider extends AppWidgetProvider {
 
     public static void updateRecipeWidgets(Context context, AppWidgetManager appWidgetManager,
                                            int[] appWidgetIds) {
+
         for (int appWidgetId : appWidgetIds) {
+            appWidgetManager.notifyAppWidgetViewDataChanged(appWidgetId,R.id.widget_grid_view);
             updateAppWidget(context, appWidgetManager, appWidgetId);
         }
     }

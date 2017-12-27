@@ -24,14 +24,6 @@
             style="@style/ExoMediaButton.Pause"
             android:contentDescription="@string/pause_button" />
 
-        <ImageButton
-            android:src="@drawable/fullscreen_white"
-            android:id="@+id/exo_fullscreen_button"
-            android:layout_width="@dimen/fullscreen_image_size"
-            android:background="@color/background_back"
-            android:layout_height="@dimen/fullscreen_image_size"
-            android:contentDescription="@string/fullscreen_exit" />
-
     </LinearLayout>
 
     <LinearLayout
@@ -48,6 +40,8 @@
             android:includeFontPadding="@bool/no"
             android:paddingLeft="@dimen/time_text_padding_left"
             android:paddingRight="@dimen/time_text_padding_right"
+            android:paddingStart="@dimen/time_text_padding_left"
+            android:paddingEnd="@dimen/time_text_padding_right"
             android:textColor="@color/time_text"
             android:textSize="@dimen/time_text_size"
             android:textStyle="bold" />
@@ -65,6 +59,8 @@
             android:includeFontPadding="@bool/no"
             android:paddingLeft="@dimen/time_text_padding_left"
             android:paddingRight="@dimen/time_text_padding_right"
+            android:paddingEnd="@dimen/time_text_padding_right"
+            android:paddingStart="@dimen/time_text_padding_left"
             android:textColor="@color/time_text"
             android:textSize="@dimen/time_text_size"
             android:textStyle="bold" />
