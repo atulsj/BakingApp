@@ -8,7 +8,6 @@ import android.support.annotation.VisibleForTesting;
 import android.support.v7.app.AppCompatActivity;
 
 import youtubeapidemo.examples.com.bakingapp.IdlingResource.SimpleIdlingResource;
-import youtubeapidemo.examples.com.bakingapp.sync.JobDispatcher;
 
 /*Main Activity contains fragment MainActivityFragment*/
 
@@ -50,7 +49,7 @@ public class MainActivity extends AppCompatActivity implements RecipeAdapter.Lis
             mIdlingResource = new SimpleIdlingResource();
             mIdlingResource.setIdleState(false);
         }
-        JobDispatcher.scheduleChargingReminder(this);
+
     }
 
     @Override

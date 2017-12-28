@@ -6,14 +6,16 @@ import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
 import android.view.MenuItem;
 
-public class IngredientActivity extends AppCompatActivity implements IngredientActivityFragment.OnIngredientClickListener{
+public class IngredientActivity extends AppCompatActivity implements IngredientActivityFragment.OnIngredientClickListener {
 
-    public static final String ARG ="Set Arguments" ;
-    public static final String POSITION ="position" ;
+    public static final String ARG = "Set Arguments";
+    public static final String POSITION = "position";
     // public static ProgressBar mProgressBar;
-int pos;
+    int pos;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -21,7 +23,6 @@ int pos;
         ActionBar actionBar = getSupportActionBar();
         Intent intent = getIntent();
         String activityName = "Baking Activity";
-
 
 
         if (intent != null) {
@@ -39,15 +40,16 @@ int pos;
       /*  Configuration configuration = getResources().getConfiguration();
         int smallestScreenWidthDp = configuration.smallestScreenWidthDp;*/
 
-          if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE &&
-                  getResources().getBoolean(R.bool.is_tablet)) {
-              DescriptionActivityFragment descriptionActivityFragment = new DescriptionActivityFragment();
-              Bundle args = new Bundle();
-              args.putInt(ARG, pos);
-              descriptionActivityFragment.setArguments(args);
-              getSupportFragmentManager().beginTransaction().replace(R.id.description_frame_container,
-                      descriptionActivityFragment).commit();
-          }
+            if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE &&
+                    getResources().getBoolean(R.bool.is_tablet)) {
+                DescriptionActivityFragment descriptionActivityFragment = new DescriptionActivityFragment();
+                Bundle args = new Bundle();
+                args.putInt(ARG, pos);
+                descriptionActivityFragment.setArguments(args);
+                getSupportFragmentManager().beginTransaction().add(R.id.description_frame_container,
+                        descriptionActivityFragment).commit();
+            }
+
 
     }
 
@@ -56,6 +58,8 @@ int pos;
         int id = item.getItemId();
         if (id == android.R.id.home) {
             NavUtils.navigateUpFromSameTask(this);
+        }else if(id==R.id.action_settings){
+
         }
         return super.onOptionsItemSelected(item);
     }
@@ -64,7 +68,13 @@ int pos;
     @Override
     public void onIngredientSelected() {
         Intent intent = new Intent(this, DescriptionActivity.class);
-        intent.putExtra(POSITION,pos);
+        intent.putExtra(POSITION, pos);
         startActivity(intent);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_wid,menu);
+        return true;
     }
 }

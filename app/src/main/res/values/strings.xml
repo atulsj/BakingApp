@@ -16,4 +16,5 @@
     <string name="no_video_available">No Video Available</string>
     <string name="no_video_image">Image</string>
     <string name="recipe_image">recipe image</string>
+    <string name="action_setRecipe">SET AT HOME</string>
 </resources>

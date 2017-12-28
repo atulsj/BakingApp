@@ -121,7 +121,7 @@ public class MainActivityFragment extends Fragment {
                             recipeAdapter.changeData(arrayList);
 
                             //TODO: uncomment the below comment for testing please
-                            /* SimpleIdlingResource simpleIdlingResource =
+                          /*   SimpleIdlingResource simpleIdlingResource =
                                     ((MainActivity) getActivity()).getIdlingResource();
                             if (simpleIdlingResource != null) {
                                 simpleIdlingResource.setIdleState(true);

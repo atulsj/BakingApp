@@ -32,8 +32,10 @@ public class DescriptionActivity extends AppCompatActivity {
         int pos = 0;
         Intent intent = getIntent();
 
-        if (intent != null && intent.hasExtra(IngredientActivity.POSITION))
-            pos = intent.getIntExtra(IngredientActivity.POSITION, 0);
+        if (intent != null) {
+            if (intent.hasExtra(IngredientActivity.POSITION))
+                pos = intent.getIntExtra(IngredientActivity.POSITION, 0);
+        }
         if(savedInstanceState==null) {
             if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT ||
                     getResources().getBoolean(R.bool.is_mobile)) {

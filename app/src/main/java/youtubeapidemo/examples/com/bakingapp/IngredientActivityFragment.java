@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.CardView;
@@ -35,6 +36,7 @@ public class IngredientActivityFragment extends Fragment {
     public static final String TAG = IngredientActivityFragment.class.getSimpleName();
     public static final String DESCRIPTION_ARRAY_LIST = "list";
     public static final String POSITION ="position" ;
+    private static final String RECYCLER_VIEW_STATE ="recycler_view_state" ;
     private TextView ingredientHead;
     private View cookingButton;
     private CardView cardViewIngredients;
@@ -43,7 +45,7 @@ public class IngredientActivityFragment extends Fragment {
     public static int pos=0;
     public static ArrayList<Description> descriptionArrayList;
     private OnIngredientClickListener mCallback;
-
+private RecyclerView mRecyclerView;
 
     interface OnIngredientClickListener {
         void onIngredientSelected();
@@ -67,7 +69,7 @@ public class IngredientActivityFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_ingredient_activity, container, false);
 
-        RecyclerView recyclerView = (RecyclerView) root.findViewById(R.id.recycler_view);
+        mRecyclerView = (RecyclerView) root.findViewById(R.id.recycler_view);
         ingredientHead = (TextView) root.findViewById(R.id.ingredient_head);
 
         Configuration configuration = getActivity().getResources().getConfiguration();
@@ -91,20 +93,29 @@ public class IngredientActivityFragment extends Fragment {
                 pos = bundle.getInt(MainActivity.LIST_KEY);
             }
         }
-        if(savedInstanceState!=null){
-            pos=savedInstanceState.getInt(ITEM_POSITION);
+        if(savedInstanceState!=null) {
+            pos = savedInstanceState.getInt(ITEM_POSITION);
+            /*if(ingredientArrayList!=null && !ingredientArrayList.isEmpty()
+                    && ingredientArrayList.size()>0){
+                ingredientArrayList=savedInstanceState.getStringArrayList("Re")
+                mRecyclerView.getLayoutManager()
+                        .onRestoreInstanceState(savedInstanceState.getParcelable(RECYCLER_VIEW_STATE));
+            }else
+            {
+                makeJsonArrayRequest();
+            }*/
         }
-        makeJsonArrayRequest();
+            makeJsonArrayRequest(savedInstanceState);
 
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        mRecyclerView.setHasFixedSize(true);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         ingredientAdapter = new IngredientAdapter(getActivity(), ingredientArrayList);
-        recyclerView.setAdapter(ingredientAdapter);
+        mRecyclerView.setAdapter(ingredientAdapter);
         return root;
     }
 
 
-    private void makeJsonArrayRequest() {
+    private void makeJsonArrayRequest(final Bundle savedstate) {
         String mUrlBaking = BakingUtility.BAKING_URL;
         JsonArrayRequest req = new JsonArrayRequest(mUrlBaking,
                 new Response.Listener<JSONArray>() {
@@ -137,13 +148,10 @@ public class IngredientActivityFragment extends Fragment {
                             }
                             ingredientHead.setVisibility(View.VISIBLE);
                             ingredientAdapter.changeData(ingredientArrayList);
+                            if(savedstate!=null)
+                            mRecyclerView.getLayoutManager()
+                                    .onRestoreInstanceState(savedstate.getParcelable(RECYCLER_VIEW_STATE));
 
-                            //TODO: uncomment the below comment for testing please
-                            /* SimpleIdlingResource simpleIdlingResource =
-                                    ((MainActivity) getActivity()).getIdlingResource();
-                            if (simpleIdlingResource != null) {
-                                simpleIdlingResource.setIdleState(true);
-                            }*/
                         } catch (JSONException e) {
                             e.printStackTrace();
                             Log.i(TAG, "Error: " + e.getMessage());
@@ -160,11 +168,15 @@ public class IngredientActivityFragment extends Fragment {
         MySingleton.getInstance(getActivity()).addToRequestQueue(req);
     }
 
+
+
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putStringArrayList(RESTORE_INGREDIENT_LIST, ingredientArrayList);
         outState.putInt(ITEM_POSITION,pos);
+        Parcelable listState=mRecyclerView.getLayoutManager().onSaveInstanceState();
+        outState.putParcelable(RECYCLER_VIEW_STATE,listState);
     }
 
 }

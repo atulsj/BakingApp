@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.android.volley.Response;
@@ -37,40 +38,38 @@ import java.util.ArrayList;
 import static android.content.ContentValues.TAG;
 import static youtubeapidemo.examples.com.bakingapp.R.id.playerView;
 
-public class DescriptionActivityFragment extends Fragment{
-    public static final String VIDEO_URL = "video_url";
+public class DescriptionActivityFragment extends Fragment {
     public static final String STEP_NO = "step_no";
-    private static final String CURRENT_WINDOW = "current_window" ;
-    private static final String PLAY_BACK_POSITION ="playback_position" ;
+    private static final String CURRENT_WINDOW = "current_window";
+    private static final String PLAY_BACK_POSITION = "playback_position";
     private static final String PLAY_WHEN_READY = "play_when_ready";
-
+    private static final String SCROLL_POS_X = "scroll_view_position_x";
+    private static final String SCROLL_POS_Y = "scroll_view_position_y";
     private SimpleExoPlayerView mPlayerView;
     private Button mPreviousButton, mNextButton;
     private ArrayList<Description> mDescription;
     public static int mCurrentPosition = 0;
     private TextView mStep, mDescriptionPosition;
     private int pos = 0;
-    private View rootView;
     private TextView mNoVideoText;
     private ImageView mImageView;
     private SimpleExoPlayer mSimpleExoPlayer;
-    private Uri playerUri;
     private static boolean playWhenReady;
-    private int currentWindow;
-    private long playbackPosition;
-
+    private int currentWindow=0;
+    private long playbackPosition=0;
+    private ScrollView mScrollView;
+    private Bundle bundle;
 
     public DescriptionActivityFragment() {
         // Required empty public constructor
     }
 
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        rootView = inflater.inflate(R.layout.fragment_description_activity, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_description_activity, container, false);
         mPreviousButton = (Button) rootView.findViewById(R.id.previous_button);
         mNextButton = (Button) rootView.findViewById(R.id.next_button);
         mStep = (TextView) rootView.findViewById(R.id.step_description);
@@ -78,40 +77,33 @@ public class DescriptionActivityFragment extends Fragment{
         mPlayerView = (SimpleExoPlayerView) rootView.findViewById(playerView);
         mImageView = (ImageView) rootView.findViewById(R.id.no_video_image);
         mDescription = new ArrayList<>();
-        Configuration configuration = getActivity().getResources().getConfiguration();
-
+        mScrollView = (ScrollView) rootView.findViewById(R.id.scrollview);
         mPreviousButton.setVisibility(View.INVISIBLE);
         mNextButton.setVisibility(View.INVISIBLE);
-
+        bundle = savedInstanceState;
         Bundle args = getArguments();
         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT ||
                 getResources().getBoolean(R.bool.is_mobile)) {
-
             if (args != null) {
                 pos = args.getInt(DescriptionActivity.ARG_DES, 0);
-                Log.e("000", "000");
             }
         } else {
             if (args != null) {
                 pos = args.getInt(IngredientActivity.ARG, 0);
-                Log.e("111", "111");
             }
         }
         if (savedInstanceState == null) {
             if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT
                     && getResources().getBoolean(R.bool.is_tablet))
                 mCurrentPosition = 0;
-            Log.e("222", "222");
-
         } else if (savedInstanceState.containsKey(STEP_NO)) {
-            Log.e("333", "3333");
             mCurrentPosition = savedInstanceState.getInt(STEP_NO, 0);
-            playWhenReady=savedInstanceState.getBoolean(PLAY_WHEN_READY,false);
-            playbackPosition=savedInstanceState.getLong(PLAY_BACK_POSITION,0);
-            currentWindow=savedInstanceState.getInt(CURRENT_WINDOW,0);
+        //    if (getResources().getBoolean(R.bool.is_mobile )) {
+                playWhenReady = savedInstanceState.getBoolean(PLAY_WHEN_READY, false);
+                playbackPosition = savedInstanceState.getLong(PLAY_BACK_POSITION, 0);
+                currentWindow = savedInstanceState.getInt(CURRENT_WINDOW, 0);
+        //    }
         }
-
-      //  makeJsonArrayRequest();
         mNoVideoText = (TextView) rootView.findViewById(R.id.no_video_text);
         return rootView;
     }
@@ -146,9 +138,9 @@ public class DescriptionActivityFragment extends Fragment{
 
     void releaseVideoPlayer() {
         if (mSimpleExoPlayer != null) {
-            playbackPosition=mSimpleExoPlayer.getCurrentPosition();
-            currentWindow=mSimpleExoPlayer.getCurrentWindowIndex();
-            playWhenReady=mSimpleExoPlayer.getPlayWhenReady();
+            playbackPosition = mSimpleExoPlayer.getCurrentPosition();
+            currentWindow = mSimpleExoPlayer.getCurrentWindowIndex();
+            playWhenReady = mSimpleExoPlayer.getPlayWhenReady();
             mSimpleExoPlayer.release();
         }
         mSimpleExoPlayer = null;
@@ -208,8 +200,12 @@ public class DescriptionActivityFragment extends Fragment{
                                 mNextButton.setVisibility(View.INVISIBLE);
                             else if (mCurrentPosition == 0)
                                 mPreviousButton.setVisibility(View.INVISIBLE);
-
-
+                            if (bundle != null &&
+                                    getResources().getConfiguration().orientation ==
+                                            Configuration.ORIENTATION_LANDSCAPE) {
+                                mScrollView.scrollTo(bundle.getInt(SCROLL_POS_X),
+                                        bundle.getInt(SCROLL_POS_Y));
+                            }
                         } catch (JSONException e) {
                             e.printStackTrace();
                             Log.i(TAG, "Error: " + e.getMessage());
@@ -254,7 +250,7 @@ public class DescriptionActivityFragment extends Fragment{
 
     private void initializePlayer(final Uri uri) {
         MediaSource mediaSource = buildMediaSource(uri);
-      //  mSimpleExoPlayer.prepare(mediaSource, true, false);
+        //  mSimpleExoPlayer.prepare(mediaSource, true, false);
         mSimpleExoPlayer.setPlayWhenReady(playWhenReady);
         mSimpleExoPlayer.seekTo(currentWindow, playbackPosition);
         mSimpleExoPlayer.prepare(mediaSource);
@@ -289,9 +285,13 @@ public class DescriptionActivityFragment extends Fragment{
         super.onSaveInstanceState(outState);
         outState.putInt(STEP_NO, mCurrentPosition);
         //  outState.putLong(SEEK_POSITION,ExoPlayerHandler.mSimpleExoPlayer.getCurrentPosition());
-        outState.putInt(CURRENT_WINDOW,currentWindow);
-        outState.putLong(PLAY_BACK_POSITION,playbackPosition);
-        outState.putBoolean(PLAY_WHEN_READY,playWhenReady);
+        outState.putInt(CURRENT_WINDOW, currentWindow);
+        outState.putLong(PLAY_BACK_POSITION, playbackPosition);
+        outState.putBoolean(PLAY_WHEN_READY, playWhenReady);
+        if (mScrollView != null) {
+            outState.putInt(SCROLL_POS_X, mScrollView.getScrollX());
+            outState.putInt(SCROLL_POS_Y, mScrollView.getScrollY());
+        }
     }
 
 
