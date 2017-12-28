@@ -23,7 +23,7 @@
             android:layout_height="@dimen/image_height"
             android:layout_margin="@dimen/image_margin"
             android:layout_gravity="center_vertical"
-            android:src="@drawable/covered_food_tray_on_a_hand_of_hotel_room_service" />
+            android:src="@drawable/covered_food_tray" />
 
         <LinearLayout
             android:layout_width="match_parent"

@@ -31,21 +31,18 @@ import java.util.ArrayList;
 public class IngredientActivityFragment extends Fragment {
 
     private static final String RESTORE_INGREDIENT_LIST = "restore_ingredient_list";
-    private static final String ITEM_POSITION ="item_postion" ;
-    public static final String WIDGIT_POSITION = "WIDGIT POSITION";
+    private static final String ITEM_POSITION = "item_postion";
     public static final String TAG = IngredientActivityFragment.class.getSimpleName();
-    public static final String DESCRIPTION_ARRAY_LIST = "list";
-    public static final String POSITION ="position" ;
-    private static final String RECYCLER_VIEW_STATE ="recycler_view_state" ;
+    private static final String RECYCLER_VIEW_STATE = "recycler_view_state";
     private TextView ingredientHead;
     private View cookingButton;
     private CardView cardViewIngredients;
     private IngredientAdapter ingredientAdapter;
     private ArrayList<String> ingredientArrayList;
-    public static int pos=0;
+    public static int pos = 0;
     public static ArrayList<Description> descriptionArrayList;
     private OnIngredientClickListener mCallback;
-private RecyclerView mRecyclerView;
+    private RecyclerView mRecyclerView;
 
     interface OnIngredientClickListener {
         void onIngredientSelected();
@@ -73,27 +70,24 @@ private RecyclerView mRecyclerView;
         ingredientHead = (TextView) root.findViewById(R.id.ingredient_head);
 
         Configuration configuration = getActivity().getResources().getConfiguration();
-        int smallestScreenWidthDp = configuration.smallestScreenWidthDp;
-        boolean orient=configuration.orientation ==
+        boolean orient = configuration.orientation ==
                 Configuration.ORIENTATION_PORTRAIT;
-        if ( orient || getResources().getBoolean(R.bool.is_mobile)) {
+        if (orient || getResources().getBoolean(R.bool.is_mobile)) {
             cookingButton = root.findViewById(R.id.cook_custom_button);
-            if(orient)
+            if (orient)
                 cardViewIngredients = (CardView) root.findViewById(R.id.card_view_ingredients);
         }
 
-        ingredientArrayList=new ArrayList<>();
+        ingredientArrayList = new ArrayList<>();
         descriptionArrayList = new ArrayList<>();
         Intent intent = getActivity().getIntent();
         if (intent != null) {
-            if ((intent.getAction()).equals(WIDGIT_POSITION)) {
-                pos = intent.getIntExtra("WIDGIT_POSITION_CLICKED", 0);
-            } else if (intent.hasExtra(MainActivity.BUNDLE)) {
+            if (intent.hasExtra(MainActivity.BUNDLE)) {
                 Bundle bundle = intent.getBundleExtra(MainActivity.BUNDLE);
-                pos = bundle.getInt(MainActivity.LIST_KEY);
+                pos = bundle.getInt(MainActivity.LIST_ITEM_CLICKED);
             }
         }
-        if(savedInstanceState!=null) {
+        if (savedInstanceState != null) {
             pos = savedInstanceState.getInt(ITEM_POSITION);
             /*if(ingredientArrayList!=null && !ingredientArrayList.isEmpty()
                     && ingredientArrayList.size()>0){
@@ -105,7 +99,7 @@ private RecyclerView mRecyclerView;
                 makeJsonArrayRequest();
             }*/
         }
-            makeJsonArrayRequest(savedInstanceState);
+        makeJsonArrayRequest(savedInstanceState);
 
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -132,25 +126,25 @@ private RecyclerView mRecyclerView;
                                 ingredientArrayList.add(ingredientsRequirent);
                             }
 
-                            if (cookingButton != null ) {
+                            if (cookingButton != null) {
                                 cookingButton.setVisibility(View.VISIBLE);
                             }
-                            if(cardViewIngredients!=null){
+                            if (cardViewIngredients != null) {
                                 cardViewIngredients.setVisibility(View.VISIBLE);
                             }
                             if (cookingButton != null) {
                                 cookingButton.setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View view) {
-                                  mCallback.onIngredientSelected();
+                                        mCallback.onIngredientSelected();
                                     }
                                 });
                             }
                             ingredientHead.setVisibility(View.VISIBLE);
                             ingredientAdapter.changeData(ingredientArrayList);
-                            if(savedstate!=null)
-                            mRecyclerView.getLayoutManager()
-                                    .onRestoreInstanceState(savedstate.getParcelable(RECYCLER_VIEW_STATE));
+                            if (savedstate != null)
+                                mRecyclerView.getLayoutManager()
+                                        .onRestoreInstanceState(savedstate.getParcelable(RECYCLER_VIEW_STATE));
 
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -169,14 +163,13 @@ private RecyclerView mRecyclerView;
     }
 
 
-
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putStringArrayList(RESTORE_INGREDIENT_LIST, ingredientArrayList);
-        outState.putInt(ITEM_POSITION,pos);
-        Parcelable listState=mRecyclerView.getLayoutManager().onSaveInstanceState();
-        outState.putParcelable(RECYCLER_VIEW_STATE,listState);
+        outState.putInt(ITEM_POSITION, pos);
+        Parcelable listState = mRecyclerView.getLayoutManager().onSaveInstanceState();
+        outState.putParcelable(RECYCLER_VIEW_STATE, listState);
     }
 
 }

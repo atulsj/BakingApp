@@ -41,7 +41,7 @@ class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeViewHolder>
         holder.servings.setText( String.valueOf(serving ).concat(" Servings"));
         String img_url=mRecipes.get(position).getImageUrl();
         if(img_url!=null && !img_url.isEmpty())
-            Picasso.with(mContext).load(img_url).into(holder.image);//.placeholder(R.drawable.movie_placeholder).error(R.drawable.error_placeholder)
+            Picasso.with(mContext).load(img_url).into(holder.image);
     }
 
     @Override
@@ -49,17 +49,17 @@ class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeViewHolder>
         return mRecipes.size();
     }
 
-    public void changeData(ArrayList<Recipes> arrayList) {
+    void changeData(ArrayList<Recipes> arrayList) {
         mRecipes = arrayList;
         notifyDataSetChanged();
     }
 
 
-    public interface ListItemClickListener {
+    interface ListItemClickListener {
         void onListItemClick(int clickedItemIndex,String nameOfActivity);
     }
 
-    public class RecipeViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    class RecipeViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         @BindView(R.id.title)
         TextView title;
         @BindView(R.id.serving)
@@ -67,7 +67,7 @@ class RecipeAdapter extends RecyclerView.Adapter<RecipeAdapter.RecipeViewHolder>
         @BindView(R.id.image)
         ImageView image;
 
-        public RecipeViewHolder(View itemView) {
+        RecipeViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
             itemView.setOnClickListener(this);

@@ -232,8 +232,8 @@ public class DescriptionActivityFragment extends Fragment {
             if (video_img_url != null && !video_img_url.isEmpty()) {
                 mImageView.setVisibility(View.VISIBLE);
                 Picasso.with(getContext()).load(video_img_url)
-                        .placeholder(R.drawable.covered_food_tray_on_a_hand_of_hotel_room_service)
-                        .error(R.drawable.covered_food_tray_on_a_hand_of_hotel_room_service)
+                        .placeholder(R.drawable.covered_food_tray)
+                        .error(R.drawable.covered_food_tray)
                         .into(mImageView);
             } else if (mNoVideoText != null)
                 mNoVideoText.setVisibility(View.VISIBLE);
@@ -250,7 +250,6 @@ public class DescriptionActivityFragment extends Fragment {
 
     private void initializePlayer(final Uri uri) {
         MediaSource mediaSource = buildMediaSource(uri);
-        //  mSimpleExoPlayer.prepare(mediaSource, true, false);
         mSimpleExoPlayer.setPlayWhenReady(playWhenReady);
         mSimpleExoPlayer.seekTo(currentWindow, playbackPosition);
         mSimpleExoPlayer.prepare(mediaSource);
@@ -284,7 +283,6 @@ public class DescriptionActivityFragment extends Fragment {
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putInt(STEP_NO, mCurrentPosition);
-        //  outState.putLong(SEEK_POSITION,ExoPlayerHandler.mSimpleExoPlayer.getCurrentPosition());
         outState.putInt(CURRENT_WINDOW, currentWindow);
         outState.putLong(PLAY_BACK_POSITION, playbackPosition);
         outState.putBoolean(PLAY_WHEN_READY, playWhenReady);

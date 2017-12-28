@@ -42,11 +42,6 @@
                 android:value=".IngredientActivity" />
         </activity>
 
-        <provider
-            android:name=".provider.BakeListContentProvider"
-            android:authorities="youtubeapidemo.examples.com.bakingapp"
-            android:exported="true" />
-
         <receiver android:name=".BakingWidgetProvider">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
@@ -63,13 +58,11 @@
         <service
             android:name=".GridWidgetService"
             android:permission="android.permission.BIND_REMOTEVIEWS" />
-        <service
-            android:name=".sync.MyJobService"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="com.firebase.jobdispatcher.ACTION_EXECUTE" />
-            </intent-filter>
-        </service>
+
+        <provider
+            android:name=".provider.BakeListContentProvider"
+            android:authorities="youtubeapidemo.examples.com.bakingapp"
+            android:exported="true" />
 
     </application>
 

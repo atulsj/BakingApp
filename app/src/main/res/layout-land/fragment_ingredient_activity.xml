@@ -36,6 +36,7 @@
         android:layout_above="@id/recycler_view"
         android:layout_alignParentBottom="@bool/yes"
         android:layout_alignParentRight="@bool/yes"
+        android:layout_alignParentEnd="@bool/yes"
         android:layout_margin="@dimen/fab_margin"
         android:src="@drawable/cook_steps"
         android:visibility="invisible"

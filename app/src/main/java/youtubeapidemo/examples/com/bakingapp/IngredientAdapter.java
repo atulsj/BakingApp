@@ -13,11 +13,11 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 
-public class IngredientAdapter extends RecyclerView.Adapter<IngredientAdapter.IngredientHolder> {
+class IngredientAdapter extends RecyclerView.Adapter<IngredientAdapter.IngredientHolder> {
     private Context mContext;
     private ArrayList<String> mIngredients;
 
-    public IngredientAdapter(Context context, ArrayList<String> ingredients) {
+    IngredientAdapter(Context context, ArrayList<String> ingredients) {
         mContext = context;
         mIngredients = ingredients;
     }
@@ -32,7 +32,7 @@ public class IngredientAdapter extends RecyclerView.Adapter<IngredientAdapter.In
     public void onBindViewHolder(IngredientHolder holder, int position) {
         String item = mIngredients.get(position);
         holder.no_column.setText(position + 1 + ".");
-        holder.recipe_ingredient.setText(item.substring(0, 1).toUpperCase() + item.substring(1));
+        holder.recipe_ingredient.setText(item.substring(0, 1).toUpperCase().concat(item.substring(1)));
 
     }
 
@@ -41,18 +41,18 @@ public class IngredientAdapter extends RecyclerView.Adapter<IngredientAdapter.In
         return mIngredients.size();
     }
 
-    public void changeData(ArrayList<String> arrayList) {
+    void changeData(ArrayList<String> arrayList) {
         mIngredients = arrayList;
         notifyDataSetChanged();
     }
 
-    public class IngredientHolder extends RecyclerView.ViewHolder {
+    class IngredientHolder extends RecyclerView.ViewHolder {
         @BindView(R.id.recipe_ingredient)
         TextView recipe_ingredient;
         @BindView(R.id.no_column)
         TextView no_column;
 
-        public IngredientHolder(View itemView) {
+        IngredientHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
         }

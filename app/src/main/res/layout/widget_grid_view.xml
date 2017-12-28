@@ -29,7 +29,7 @@
             android:layout_height="match_parent"
             android:alpha="0.1"
             android:contentDescription="@string/empty_view_text"
-            android:src="@drawable/covered_food_tray_on_a_hand_of_hotel_room_service" />
+            android:src="@drawable/covered_food_tray" />
 
     </RelativeLayout>
 </FrameLayout>

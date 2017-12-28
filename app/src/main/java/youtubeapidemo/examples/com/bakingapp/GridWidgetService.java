@@ -4,10 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
-import android.os.Bundle;
 import android.widget.RemoteViews;
 import android.widget.RemoteViewsService;
-
 import static youtubeapidemo.examples.com.bakingapp.provider.BakeContract.BASE_CONTENT_URI;
 import static youtubeapidemo.examples.com.bakingapp.provider.BakeContract.BakeEntry;
 import static youtubeapidemo.examples.com.bakingapp.provider.BakeContract.PATH_RECIPES;
@@ -52,7 +50,8 @@ class GridRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
 
     @Override
     public void onDestroy() {
-        if(!mCursor.isClosed())
+
+        if(mCursor!=null && !mCursor.isClosed())
         mCursor.close();
     }
 
@@ -67,16 +66,10 @@ class GridRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {
         if (mCursor == null || mCursor.getCount() == 0)
             return null;
         mCursor.moveToPosition(position);
-        int name_Index = mCursor.getColumnIndex(BakeEntry.COLUMN_NAME);
+        int name_Index = mCursor.getColumnIndex(BakeEntry.RECIPE_INGREDIENTS);
         String recipeName = mCursor.getString(name_Index);
         RemoteViews views = new RemoteViews(mContext.getPackageName(), R.layout.baking_widget_provider);
         views.setTextViewText(R.id.appwidget_text,recipeName );
-        Bundle extras = new Bundle();
-        extras.putInt("WIDGIT_POSITION_CLICKED", position);
-        Intent fillInIntent = new Intent();
-        fillInIntent.setAction(IngredientActivityFragment.WIDGIT_POSITION);
-        fillInIntent.putExtras(extras);
-        views.setOnClickFillInIntent(R.id.appwidget_text, fillInIntent);
         return views;
     }
 

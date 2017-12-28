@@ -1,5 +1,4 @@
 package youtubeapidemo.examples.com.bakingapp.provider;
-
 import android.content.ContentProvider;
 import android.content.ContentUris;
 import android.content.ContentValues;
@@ -10,22 +9,18 @@ import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-
 import youtubeapidemo.examples.com.bakingapp.provider.BakeContract.BakeEntry;
 
-/**
- * Class to be Used for inserting ,querying and deleting database content.
- */
+import static youtubeapidemo.examples.com.bakingapp.provider.BakeContract.AUTHORITY;
+import static youtubeapidemo.examples.com.bakingapp.provider.BakeContract.PATH_RECIPES;
 
 public class BakeListContentProvider extends ContentProvider {
-
     public static final int RECIPES = 100;
-
     private static final UriMatcher sUriMatcher = buildUriMatcher();
 
     public static UriMatcher buildUriMatcher() {
         UriMatcher uriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
-        uriMatcher.addURI(BakeContract.AUTHORITY, BakeContract.PATH_RECIPES, RECIPES);
+        uriMatcher.addURI(AUTHORITY, PATH_RECIPES, RECIPES);
         return uriMatcher;
     }
 

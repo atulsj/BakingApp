@@ -3,36 +3,46 @@ package youtubeapidemo.examples.com.bakingapp;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-/**
- * Created by 1515012 on 09-07-2017.
- */
+import java.util.ArrayList;
 
-public class Recipes implements Parcelable {
+
+
+class Recipes implements Parcelable {
     private int id, servings;
     private String dish_Name;
     private String imageUrl;
+    private ArrayList<String> mIngredients;
 
-    public Recipes(int id, String dish_name, int servings, String image_url) {
+    Recipes(int id, String dish_name, int servings, String image_url, ArrayList<String> ingredients) {
         this.id = id;
         this.dish_Name = dish_name;
         this.servings = servings;
         this.imageUrl = image_url;
+        mIngredients=ingredients;
     }
 
     public int getId() {
         return id;
     }
 
-    public int getServings() {
+    int getServings() {
         return servings;
     }
 
-    public String getDish_Name() {
+    String getDish_Name() {
         return dish_Name;
     }
 
-    public String getImageUrl() {
+    String getImageUrl() {
         return imageUrl;
+    }
+
+    ArrayList<String> getIngredients(){
+        return mIngredients;
+    }
+
+    public String getRecipeIngredients(int pos){
+        return mIngredients.get(pos);
     }
 
     @Override
@@ -46,6 +56,7 @@ public class Recipes implements Parcelable {
         parcel.writeString(dish_Name);
         parcel.writeInt(servings);
         parcel.writeString(imageUrl);
+        parcel.writeStringList(mIngredients);
     }
 
     private Recipes(Parcel parcel) {
@@ -53,6 +64,7 @@ public class Recipes implements Parcelable {
         dish_Name = parcel.readString();
         servings = parcel.readInt();
         imageUrl = parcel.readString();
+        parcel.readStringList(mIngredients);
     }
 
     public static final Creator<Recipes> CREATOR = new Creator<Recipes>() {

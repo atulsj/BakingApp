@@ -22,13 +22,13 @@ public class DescriptionActivity extends AppCompatActivity {
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
-       /* Configuration configuration = getResources().getConfiguration();
-        int smallestScreenWidthDp = configuration.smallestScreenWidthDp;*/
+
         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE &&
                 getResources().getBoolean(R.bool.is_tablet)
                 ) {
             finish();
         }
+
         int pos = 0;
         Intent intent = getIntent();
 

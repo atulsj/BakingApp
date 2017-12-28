@@ -15,6 +15,6 @@ public final class BakeContract {
     public static final class BakeEntry implements BaseColumns {
         public static final Uri CONTENT_URI = BASE_CONTENT_URI.buildUpon().appendPath(PATH_RECIPES).build();
         static final String TABLE_NAME = "food_to_cook";
-        public static final String COLUMN_NAME = "recipe_name";
+        public static final String RECIPE_INGREDIENTS = "recipe_item_selected";
     }
 }

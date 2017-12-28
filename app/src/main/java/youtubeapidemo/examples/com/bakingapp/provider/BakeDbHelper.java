@@ -13,7 +13,7 @@ import youtubeapidemo.examples.com.bakingapp.provider.BakeContract.BakeEntry;
 class BakeDbHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "recipeDb.db";
-    private static final int VERSION = 3;
+    private static final int VERSION = 6;
 
     BakeDbHelper(Context context) {
         super(context, DATABASE_NAME, null, VERSION);
@@ -22,14 +22,14 @@ class BakeDbHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("CREATE TABLE " + BakeEntry.TABLE_NAME + " (" +
-                BakeEntry.COLUMN_NAME + " TEXT NOT NULL);");
+                BakeEntry.RECIPE_INGREDIENTS + " TEXT NOT NULL);");
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        //if (newVersion > 1) {
-            db.execSQL("DROP TABLE IF EXISTS " + BakeContract.BakeEntry.TABLE_NAME);
+        if (newVersion > 1) {
+            db.execSQL("DROP TABLE IF EXISTS " + BakeEntry.TABLE_NAME);
             onCreate(db);
-       // }
+        }
     }
 }

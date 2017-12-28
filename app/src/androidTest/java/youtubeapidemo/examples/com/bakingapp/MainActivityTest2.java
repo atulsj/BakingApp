@@ -21,21 +21,17 @@ import org.junit.runner.RunWith;
 import youtubeapidemo.examples.com.bakingapp.IdlingResource.SimpleIdlingResource;
 
 import static android.support.test.espresso.Espresso.onView;
-import static android.support.test.espresso.action.ViewActions.click;
 import static android.support.test.espresso.assertion.ViewAssertions.matches;
-import static android.support.test.espresso.contrib.RecyclerViewActions.actionOnItemAtPosition;
 import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
-import static android.support.test.espresso.matcher.ViewMatchers.withContentDescription;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
-import static android.support.test.espresso.matcher.ViewMatchers.withParent;
+import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static org.hamcrest.Matchers.allOf;
 
 @RunWith(AndroidJUnit4.class)
-public class MainActivityTest {
+public class MainActivityTest2 {
 
     @Rule
     public ActivityTestRule<MainActivity> mActivityTestRule = new ActivityTestRule<>(MainActivity.class);
-
     private SimpleIdlingResource mIdlingResource;
 
     @Before
@@ -51,9 +47,18 @@ public class MainActivityTest {
             Espresso.unregisterIdlingResources(mIdlingResource);
         }
     }
-
     @Test
     public void mainActivityTest2() {
+        ViewInteraction textView = onView(
+                allOf(withId(R.id.text), withText("Lets Cook…"),
+                        childAtPosition(
+                                childAtPosition(
+                                        withId(android.R.id.content),
+                                        0),
+                                0),
+                        isDisplayed()));
+        textView.check(matches(withText("Lets Cook…")));
+
         ViewInteraction linearLayout = onView(
                 allOf(childAtPosition(
                         allOf(withId(R.id.card_view),
@@ -64,16 +69,6 @@ public class MainActivityTest {
                         isDisplayed()));
         linearLayout.check(matches(isDisplayed()));
 
-        ViewInteraction recyclerView = onView(
-                allOf(withId(R.id.recycler_view), isDisplayed()));
-        recyclerView.perform(actionOnItemAtPosition(0, click()));
-
-        ViewInteraction appCompatImageButton = onView(
-                allOf(withContentDescription("Navigate up"),
-                        withParent(allOf(withId(R.id.action_bar),
-                                withParent(withId(R.id.action_bar_container)))),
-                        isDisplayed()));
-        appCompatImageButton.perform(click());
 
     }
 
