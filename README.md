@@ -1,5 +1,5 @@
 ## BakingApp
-Application fetches json data from url provided by udacity and displays list of sweet recipes in Mainactivity.When clicked on a single item it shows ingredients required to cook along with required steps in-text as well as in helpful videos .App is supported by widget and Instrumental testing is also performed on the app.Exo player is used for supporting videos.Butterknife library is used for binding views.
+Application fetches json data from url provided by udacity and displays list of sweet recipes in Mainactivity. When clicked on a single item it shows ingredients required to cook along with required steps in-text as well as in helpful videos. App is supported by widget and Instrumental testing is also performed on the app. Exo player is used for supporting videos. Butterknife library is used for binding views.
 
 ## Screenshot of the Application
 ### Mobile View
