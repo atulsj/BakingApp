@@ -4,20 +4,23 @@ Application fetches json data from url provided by udacity and displays list of 
 ## Screenshot of the Application
 ### Mobile View
 <div>
-<img src="https://github.com/atulsj/Images/blob/master/bk_tablet1.jpeg" height=500px>
-<img src="https://github.com/atulsj/Images/blob/master/bk_tablet3.jpeg" height=500px>
-<img src="https://github.com/atulsj/Images/blob/master/bk_tablet5.jpeg" height=500px>
+<img src="https://github.com/atulsj/Images/blob/master/bk_tablet1.jpeg" height=500px hspace=2>
+<img src="https://github.com/atulsj/Images/blob/master/bk_tablet3.jpeg" height=500px hspace=2>
+<img src="https://github.com/atulsj/Images/blob/master/bk_tablet5.jpeg" height=500px hspace=2>
 <div>
 <div>
-<img src="https://github.com/atulsj/Images/blob/master/bk_tablet6.jpeg" height=500px>
-<img src="https://github.com/atulsj/Images/blob/master/bk_tablet4.jpeg" height=300px>
-<img src="https://github.com/atulsj/Images/blob/master/bk_tablet2.jpeg" height=300px>
+<img src="https://github.com/atulsj/Images/blob/master/bk_tablet6.jpeg" height=500px hspace=2>
+<img src="https://github.com/atulsj/Images/blob/master/bk_tablet4.jpeg" height=300px hspace=10>
+<img src="https://github.com/atulsj/Images/blob/master/bk_tablet2.jpeg" height=300px hspace=2>
 </div>
 <div>
-<img src="https://github.com/atulsj/Images/blob/master/bk_tablet7.jpeg" height=300px>
+<img src="https://github.com/atulsj/Images/blob/master/bk_tablet7.jpeg" height=300px hspace=2>
 </div>
+  
+### Mobile Widget
+<img src="https://github.com/atulsj/Images/blob/master/bk_widget.jpeg" height=500px hspace=2>  
 
 ### Tablet View
-<img src="https://github.com/atulsj/Images/blob/master/bk_tablet8.jpeg" height=400px >
+<img src="https://github.com/atulsj/Images/blob/master/bk_tablet8.jpeg" height=400px hspace=2>
 
 
